@@ -1,0 +1,13 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <app-header (toggleSidebar)="toggleSidebar()"></app-header>
+  </nb-layout-header>
+
+  <nb-sidebar tag="menu-sidebar" responsive>
+    <app-sidebar></app-sidebar>
+  </nb-sidebar>
+
+  <nb-layout-column>
+    <router-outlet />
+  </nb-layout-column>
+</nb-layout>

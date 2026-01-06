@@ -1,0 +1,38 @@
+::ng-deep {
+  nb-layout-column {
+    padding: 2rem;
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  // Smooth sidebar transitions
+  nb-sidebar {
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out !important;
+    
+    &.collapsed {
+      transform: translateX(-100%);
+    }
+    
+    &.compacted {
+      width: 60px !important;
+      
+      .sidebar-header {
+        .logo-container h4,
+        .subtitle {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+      }
+    }
+    
+    &.expanded {
+      transform: translateX(0);
+    }
+  }
+  
+  // Animate menu items
+  nb-menu {
+    .menu-item {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+}

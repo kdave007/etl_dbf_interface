@@ -1,0 +1,22 @@
+<div class="header-container">
+  <div class="header-left">
+    <button nbButton ghost (click)="onToggleSidebar()" class="sidebar-toggle">
+      <nb-icon icon="menu-outline"></nb-icon>
+    </button>
+    <h3 class="app-title">ETL DBF Interface</h3>
+  </div>
+
+  <div class="header-right">
+    <nb-actions size="medium">
+      <nb-action>
+        <nb-user 
+          [nbContextMenu]="userMenu"
+          name="Admin User"
+          title="Administrator"
+          size="medium"
+          onlyPicture="false">
+        </nb-user>
+      </nb-action>
+    </nb-actions>
+  </div>
+</div>

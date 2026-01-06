@@ -1,0 +1,72 @@
+.sidebar-header {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+    
+    .logo-icon {
+      font-size: 1.75rem;
+      color: #598bff;
+    }
+    
+    h4 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #ffffff;
+    }
+  }
+  
+  .subtitle {
+    margin: 0;
+    padding-left: 2.5rem;
+    font-size: 0.75rem;
+    color: #a4abb3;
+    font-weight: 500;
+  }
+}
+
+::ng-deep {
+  nb-sidebar {
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  nb-menu {
+    .menu-item {
+      transition: all 0.2s ease-in-out;
+      
+      a {
+        color: #ffffff !important;
+        transition: background-color 0.2s ease-in-out;
+        
+        nb-icon {
+          color: #598bff !important;
+        }
+        
+        span {
+          color: #ffffff !important;
+        }
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+      }
+      
+      &.selected > a {
+        background-color: rgba(89, 139, 255, 0.25) !important;
+        
+        &:hover {
+          background-color: rgba(89, 139, 255, 0.35) !important;
+        }
+      }
+    }
+    
+    .menu-group {
+      color: #a4abb3 !important;
+    }
+  }
+}
