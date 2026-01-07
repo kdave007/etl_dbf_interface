@@ -1,0 +1,6 @@
+<app-plaza-selector 
+  [(selectedPlaza)]="selectedCity"
+  (selectedPlazaChange)="onPlazaChange($event)">
+</app-plaza-selector>
+
+<app-connections-table [selectedCity]="selectedCity"></app-connections-table>

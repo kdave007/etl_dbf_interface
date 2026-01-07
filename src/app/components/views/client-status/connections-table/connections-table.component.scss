@@ -1,0 +1,142 @@
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .search-box {
+    position: relative;
+    width: 300px;
+
+    input {
+      width: 100%;
+      padding-right: 2.5rem;
+    }
+
+    nb-icon {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a4abb3;
+      pointer-events: none;
+    }
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  min-height: 300px;
+}
+
+.connections-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      background-color: rgba(89, 139, 255, 0.15);
+      border-bottom: 2px solid rgba(89, 139, 255, 0.3);
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  tbody {
+    .table-row {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      td {
+        padding: 1rem;
+        color: #ffffff;
+        font-size: 0.875rem;
+
+        &.city-cell {
+          color: #a4abb3;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  nb-icon {
+    font-size: 1rem;
+  }
+
+  &.status-connected {
+    background-color: rgba(0, 214, 143, 0.2);
+    color: #00d68f;
+
+    nb-icon {
+      color: #00d68f;
+    }
+  }
+
+  &.status-disconnected {
+    background-color: rgba(255, 170, 0, 0.2);
+    color: #ffaa00;
+
+    nb-icon {
+      color: #ffaa00;
+    }
+  }
+
+  &.status-error {
+    background-color: rgba(255, 61, 113, 0.2);
+    color: #ff3d71;
+
+    nb-icon {
+      color: #ff3d71;
+    }
+  }
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #a4abb3;
+
+  nb-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+

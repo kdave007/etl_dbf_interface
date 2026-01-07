@@ -1,0 +1,14 @@
+<nb-card class="filter-card">
+  <nb-card-body>
+    <div class="filter-container">
+      <label class="filter-label">Plaza:</label>
+      <nb-select [(selected)]="selectedPlaza" 
+                 (selectedChange)="onPlazaChange($event)"
+                 placeholder="Seleccione una plaza">
+        <nb-option *ngFor="let plaza of plazas" [value]="plaza.value">
+          {{ plaza.label }}
+        </nb-option>
+      </nb-select>
+    </div>
+  </nb-card-body>
+</nb-card>

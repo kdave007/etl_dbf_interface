@@ -1,0 +1,58 @@
+<nb-card>
+  <nb-card-header>
+    <div class="header-content">
+      <h5>Active Connections</h5>
+      <div class="search-box">
+        <input nbInput 
+               type="text" 
+               placeholder="Search connections..." 
+               [(ngModel)]="searchTerm"
+               (ngModelChange)="filterConnections()">
+        <nb-icon icon="search-outline"></nb-icon>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="table-container">
+      <table class="connections-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Sucursal</th>
+            <th>Plaza</th>
+            <th>Estatus</th>
+            <th>Ultima conexión</th>
+            <th>Database</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let conn of paginatedConnections" class="table-row">
+            <td>{{ conn.id }}</td>
+            <td>{{ conn.clientName }}</td>
+            <td class="city-cell">{{ getCityLabel(conn.city) }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(conn.status)">
+                <nb-icon [icon]="getStatusIcon(conn.status)"></nb-icon>
+                {{ conn.status }}
+              </span>
+            </td>
+            <td>{{ conn.lastSync }}</td>
+            <td>{{ conn.database }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="filteredConnections.length === 0" class="no-data">
+        <nb-icon icon="inbox-outline"></nb-icon>
+        <p>No connections found</p>
+      </div>
+      
+      <!-- Pagination Controls -->
+      <app-table-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalRecords]="filteredConnections.length"
+        (pageChange)="onPageChange($event)">
+      </app-table-pagination>
+    </div>
+  </nb-card-body>
+</nb-card>

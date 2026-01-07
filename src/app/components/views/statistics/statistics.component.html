@@ -1,0 +1,79 @@
+<app-plaza-selector 
+  [(selectedPlaza)]="selectedPlaza"
+  (selectedPlazaChange)="onPlazaChange($event)">
+</app-plaza-selector>
+
+<div class="statistics-container">
+  <nb-card class="stats-card">
+    <nb-card-header>
+      <h5>Resumen de Sincronización por Plaza</h5>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="table-container">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Sucursal</th>
+              <th>Total registros</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let stat of paginatedCitySyncStats" class="table-row">
+              <td class="city-name">{{ stat.city }}</td>
+              <td class="text-center">{{ stat.total }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <app-table-pagination
+        [currentPage]="syncStatsPage"
+        [pageSize]="syncStatsPageSize"
+        [totalRecords]="filteredCitySyncStats.length"
+        (pageChange)="onSyncStatsPageChange($event)">
+      </app-table-pagination>
+    </nb-card-body>
+  </nb-card>
+
+  <nb-card class="stats-card">
+    <nb-card-header>
+      <h5>Estadísticas de Bases de Datos</h5>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="table-container">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Base de Datos</th>
+              <th>Registros Totales</th>
+              <th>Última Actualización</th>
+              <th>Tamaño (MB)</th>  
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let db of paginatedDatabaseStats" class="table-row">
+              <td class="db-name">{{ db.name }}</td>
+              <td class="text-center">{{ db.records | number }}</td>
+              <td>{{ db.lastUpdate }}</td>
+              <td class="text-center">{{ db.sizeMB }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getDbStatusClass(db.status)">
+                  <nb-icon [icon]="getDbStatusIcon(db.status)"></nb-icon>
+                  {{ db.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <app-table-pagination
+        [currentPage]="dbStatsPage"
+        [pageSize]="dbStatsPageSize"
+        [totalRecords]="filteredDatabaseStats.length"
+        (pageChange)="onDbStatsPageChange($event)">
+      </app-table-pagination>
+    </nb-card-body>
+  </nb-card>
+</div>

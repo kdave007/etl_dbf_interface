@@ -1,0 +1,24 @@
+.filter-card {
+  margin-bottom: 1.5rem;
+
+  nb-card-body {
+    padding: 1rem 1.5rem;
+  }
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .filter-label {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  nb-select {
+    min-width: 250px;
+  }
+}

@@ -1,0 +1,34 @@
+<div *ngIf="totalRecords > 0" class="pagination-container">
+  <div class="pagination-info">
+    Mostrando {{ startRecord }} - {{ endRecord }} de {{ totalRecords }} registros
+  </div>
+  <div class="pagination-controls">
+    <button nbButton 
+            size="small" 
+            status="basic"
+            [disabled]="currentPage === 1"
+            (click)="previousPage()">
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+      Anterior
+    </button>
+    
+    <div class="page-numbers">
+      <button *ngFor="let page of pageNumbers"
+              nbButton
+              size="small"
+              [status]="currentPage === page ? 'primary' : 'basic'"
+              (click)="goToPage(page)">
+        {{ page }}
+      </button>
+    </div>
+    
+    <button nbButton 
+            size="small" 
+            status="basic"
+            [disabled]="currentPage === totalPages"
+            (click)="nextPage()">
+      Siguiente
+      <nb-icon icon="arrow-forward-outline"></nb-icon>
+    </button>
+  </div>
+</div>

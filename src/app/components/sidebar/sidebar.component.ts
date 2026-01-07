@@ -11,10 +11,15 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 export class SidebarComponent {
   menuItems: NbMenuItem[] = [
     {
-      title: 'Dashboard',
+      title: 'Estatus',
       icon: 'home-outline',
-      link: '/dashboard',
+      link: '/estatus',
       home: true
+    },
+    {
+      title: 'Estadística',
+      icon: 'grid-outline',
+      link: '/estadistica'
     },
     {
       title: 'ETL Operations',
