@@ -1,0 +1,174 @@
+.filter-card {
+  margin-bottom: 1.5rem;
+  min-height: 100px; // Prevent layout shift
+
+  nb-card-body {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+  contain: layout style; // Optimize rendering
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .filter-label {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .lock-icon {
+    color: #ffaa00;
+    font-size: 1rem;
+  }
+}
+
+.filter-inputs {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+
+  &.date-inputs {
+    .date-input {
+      flex: 1;
+    }
+
+    .date-separator {
+      color: #a4abb3;
+      font-weight: 500;
+    }
+  }
+}
+
+.field-selector {
+  min-width: 150px;
+  max-width: 200px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.date-input {
+  cursor: pointer;
+}
+
+.filter-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+
+    nb-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .filter-inputs {
+    flex-direction: column;
+    align-items: stretch;
+
+    &.date-inputs {
+      .date-separator {
+        display: none;
+      }
+    }
+  }
+
+  .field-selector,
+  .search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .filter-actions {
+    width: 100%;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+// Dark theme specific styles
+:host ::ng-deep {
+  nb-select {
+    .select-button {
+      background-color: #1a1a2e;
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  input[nbInput] {
+    background-color: #1a1a2e;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+
+    &::placeholder {
+      color: #a4abb3;
+    }
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      border-color: #3366ff;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -17,5 +17,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/views/statistics/statistics.component')
       .then(m => m.StatisticsComponent),
     title: 'Estadística'
+  },
+  {
+    path: 'tablas',
+    loadComponent: () => import('./components//views/raw-tables/raw-tables.component')
+      .then(m => m.RawTablesComponent),
+    title: 'Tablas'
   }
 ];

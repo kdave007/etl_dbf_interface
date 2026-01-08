@@ -22,49 +22,54 @@ export class SidebarComponent {
       link: '/estadistica'
     },
     {
-      title: 'ETL Operations',
-      icon: 'swap-outline',
-      expanded: false,
-      children: [
-        {
-          title: 'Import DBF',
-          icon: 'download-outline',
-          link: '/etl/import'
-        },
-        {
-          title: 'Export Data',
-          icon: 'upload-outline',
-          link: '/etl/export'
-        },
-        {
-          title: 'Transform',
-          icon: 'shuffle-2-outline',
-          link: '/etl/transform'
-        }
-      ]
+      title: 'Tablas',
+      icon: 'grid-outline',
+      link: '/tablas'
     },
-    {
-      title: 'Data Management',
-      icon: 'database-outline',
-      expanded: false,
-      children: [
-        {
-          title: 'Tables',
-          icon: 'grid-outline',
-          link: '/data/tables'
-        },
-        {
-          title: 'Queries',
-          icon: 'search-outline',
-          link: '/data/queries'
-        },
-        {
-          title: 'History',
-          icon: 'clock-outline',
-          link: '/data/history'
-        }
-      ]
-    },
+    // {
+    //   title: 'ETL Operations',
+    //   icon: 'swap-outline',
+    //   expanded: false,
+    //   children: [
+    //     {
+    //       title: 'Import DBF',
+    //       icon: 'download-outline',
+    //       link: '/etl/import'
+    //     },
+    //     {
+    //       title: 'Export Data',
+    //       icon: 'upload-outline',
+    //       link: '/etl/export'
+    //     },
+    //     {
+    //       title: 'Transform',
+    //       icon: 'shuffle-2-outline',
+    //       link: '/etl/transform'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: 'Data Management',
+    //   icon: 'database-outline',
+    //   expanded: false,
+    //   children: [
+    //     {
+    //       title: 'Tables',
+    //       icon: 'grid-outline',
+    //       link: '/data/tables'
+    //     },
+    //     {
+    //       title: 'Queries',
+    //       icon: 'search-outline',
+    //       link: '/data/queries'
+    //     },
+    //     {
+    //       title: 'History',
+    //       icon: 'clock-outline',
+    //       link: '/data/history'
+    //     }
+    //   ]
+    // },
     {
       title: 'Settings',
       icon: 'settings-2-outline',
