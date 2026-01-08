@@ -1,0 +1,170 @@
+.dynamic-table-wrapper {
+  width: 100%;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .table-info {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .table-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      label {
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 0.875rem;
+        white-space: nowrap;
+      }
+
+      nb-select {
+        min-width: 150px;
+      }
+    }
+
+    .record-count {
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .column-count {
+      color: #a4abb3;
+      font-size: 0.875rem;
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+
+  &.scrollable {
+    overflow-x: scroll;
+  }
+
+  // Custom scrollbar for dark theme
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #1a1a2e;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #3366ff;
+    border-radius: 4px;
+
+    &:hover {
+      background: #5280ff;
+    }
+  }
+}
+
+.dynamic-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100%;
+
+  thead {
+    background-color: #1a1a2e;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #ffffff;
+      border-bottom: 2px solid #3366ff;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(51, 102, 255, 0.1);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 0.875rem 1rem;
+      color: #ffffff;
+      font-size: 0.875rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
+
+      &.no-data {
+        text-align: center;
+        padding: 2rem;
+        color: #a4abb3;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .table-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem !important;
+  }
+
+  .dynamic-table {
+    thead th,
+    tbody td {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Dark theme specific styles
+:host ::ng-deep {
+  // Styles inherit from parent card
+}

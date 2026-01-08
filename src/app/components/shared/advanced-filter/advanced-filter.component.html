@@ -3,7 +3,7 @@
     <div class="filters-container">
       
       <!-- Text Filter Section -->
-      <div *ngIf="config?.showTextFilter" class="filter-group">
+      <div *ngIf="config.showTextFilter" class="filter-group">
         <div class="filter-header">
           <label class="filter-label">Buscar</label>
           <nb-icon *ngIf="config.lockTextFilter" 
@@ -14,10 +14,10 @@
         <div class="filter-inputs">
           <nb-select [(selected)]="selectedField"
                      (selectedChange)="onFieldChange()"
-                     [disabled]="config?.lockTextFilter || false"
+                     [disabled]="config.lockTextFilter || false"
                      placeholder="Campo"
                      class="field-selector">
-            <nb-option *ngFor="let field of config?.fields" [value]="field.value">
+            <nb-option *ngFor="let field of config.fields || []" [value]="field.value">
               {{ field.label }}
             </nb-option>
           </nb-select>
@@ -25,17 +25,17 @@
           <input nbInput 
                  [(ngModel)]="searchText"
                  (ngModelChange)="onSearchChange()"
-                 [disabled]="config?.lockTextFilter || false"
+                 [disabled]="config.lockTextFilter || false"
                  placeholder="Buscar..."
                  class="search-input">
         </div>
       </div>
 
       <!-- Date Range Filter Section -->
-      <div *ngIf="config?.showDateFilter" class="filter-group">
+      <div *ngIf="config.showDateFilter" class="filter-group">
         <div class="filter-header">
           <label class="filter-label">Rango de Fechas</label>
-          <nb-icon *ngIf="config?.lockDateFilter" 
+          <nb-icon *ngIf="config.lockDateFilter" 
                    icon="lock-outline" 
                    class="lock-icon">
           </nb-icon>
@@ -46,7 +46,7 @@
                  placeholder="Fecha Inicio"
                  [(ngModel)]="dateRange.start"
                  (ngModelChange)="onDateRangeChange()"
-                 [disabled]="config?.lockDateFilter || false"
+                 [disabled]="config.lockDateFilter || false"
                  class="date-input">
           
           <span class="date-separator">-</span>
@@ -56,14 +56,14 @@
                  placeholder="Fecha Fin"
                  [(ngModel)]="dateRange.end"
                  (ngModelChange)="onDateRangeChange()"
-                 [disabled]="config?.lockDateFilter || false"
+                 [disabled]="config.lockDateFilter || false"
                  class="date-input">
         </div>
       </div>
 
       <!-- Action Buttons -->
       <div class="filter-actions">
-        <button *ngIf="config?.manualApply"
+        <button *ngIf="config.manualApply"
                 nbButton 
                 size="small" 
                 status="primary"

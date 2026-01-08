@@ -1,13 +1,34 @@
+<app-plaza-selector 
+  [(selectedPlaza)]="selectedPlaza"
+  (selectedPlazaChange)="onPlazaChange($event)">
+</app-plaza-selector>
+
 <app-advanced-filter 
   [config]="filterConfig"
   (filterChange)="onFilterChange($event)">
 </app-advanced-filter>
 
 <nb-card>
-  <nb-card-header>
-    Raw Tables
-  </nb-card-header>
   <nb-card-body>
-    <!-- Your table data will go here -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <nb-spinner size="large" status="primary"></nb-spinner>
+      <p>Cargando datos...</p>
+    </div>
+    
+    <app-dynamic-table
+      [columns]="tableColumns"
+      [data]="tableData"
+      [defaultVisibleColumns]="10"
+      [tableOptions]="tableOptions"
+      [selectedTable]="selectedTable"
+      (tableChange)="onTableChange($event)">
+    </app-dynamic-table>
+    
+    <app-table-pagination
+      [currentPage]="currentPage"
+      [pageSize]="pageSize"
+      [totalRecords]="totalRecords"
+      (pageChange)="onPageChange($event)">
+    </app-table-pagination>
   </nb-card-body>
 </nb-card>

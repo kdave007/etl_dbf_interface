@@ -1,0 +1,51 @@
+<div class="dynamic-table-wrapper">
+  <div class="table-header">
+    <div class="table-info">
+      <div *ngIf="tableOptions.length > 0" class="table-selector">
+        <label>Tabla:</label>
+        <nb-select [(ngModel)]="selectedTable" 
+                   (ngModelChange)="onTableChange()"
+                   size="small"
+                   placeholder="Seleccionar tabla">
+          <nb-option *ngFor="let option of tableOptions" [value]="option.value">
+            {{ option.label }}
+          </nb-option>
+        </nb-select>
+      </div>
+      <span class="record-count">{{ data.length }} registros</span>
+      <span class="column-count">{{ visibleColumns.length }} / {{ columns.length }} columnas</span>
+    </div>
+    <button *ngIf="columns.length > defaultVisibleColumns"
+            nbButton
+            size="small"
+            status="basic"
+            (click)="toggleColumnVisibility()">
+      <nb-icon [icon]="showAll ? 'collapse-outline' : 'expand-outline'"></nb-icon>
+      {{ showAll ? 'Mostrar Menos' : 'Mostrar Todas' }}
+    </button>
+  </div>
+  
+  <div class="table-container" [class.scrollable]="showAll">
+    <table class="dynamic-table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of visibleColumns" [style.width]="column.width">
+            {{ column.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data">
+          <td *ngFor="let column of visibleColumns">
+            {{ formatValue(getCellValue(row, column), column.type) }}
+          </td>
+        </tr>
+        <tr *ngIf="data.length === 0">
+          <td [attr.colspan]="visibleColumns.length" class="no-data">
+            No hay datos disponibles
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
