@@ -1,59 +1,86 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PlazaService } from './plaza.service';
 
 export interface TableDataRequest {
   tableName: string;
-  plaza: string;
-  searchText?: string;
-  searchField?: string;
-  dateStart?: string;
-  dateEnd?: string;
-  startIndex: number;
-  endIndex: number;
-  pageSize: number;
-  currentPage: number;
+  dateRange?: {
+    start?: string;
+    end?: string;
+  };
+  city?: string;
+  paginationContext?: {
+    page?: number;
+    pageSize?: number;
+  };
+}
+
+export interface ColumnMetadata {
+  column_name: string;
+  data_type: string;
+  character_maximum_length: number | null;
+  is_nullable: string;
+  column_default: string | null;
 }
 
 export interface TableDataResponse {
+  metadata: ColumnMetadata[];
   data: any[];
-  totalRecords: number;
-  columns?: any[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    totalRecords: number;
+  };
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class RawTablesService {
-  private apiUrl = '/api/raw-tables'; // Replace with your actual API URL
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private plazaService: PlazaService
+  ) { }
 
   /**
    * Fetch table data from API with filters and pagination
    */
-  getTableData(request: TableDataRequest): Observable<TableDataResponse> {
-    // Send as POST with JSON body
-    const body = {
-      tableName: request.tableName,
-      plaza: request.plaza,
-      startIndex: request.startIndex,
-      endIndex: request.endIndex,
-      pageSize: request.pageSize,
-      currentPage: request.currentPage,
-      searchText: request.searchText || null,
-      searchField: request.searchField || null,
-      dateStart: request.dateStart || null,
-      dateEnd: request.dateEnd || null
+  getTableData(request: TableDataRequest, plaza: string): Observable<TableDataResponse> {
+    const apiUrl = this.plazaService.getApiUrl(plaza);
+    const endpoint = `${apiUrl}/api/paginated_data`;
+
+    const body: any = {
+      tableName: request.tableName
     };
 
-    return this.http.post<TableDataResponse>(this.apiUrl, body);
+    if (request.dateRange && (request.dateRange.start || request.dateRange.end)) {
+      body.dateRange = {
+        start: request.dateRange.start || undefined,
+        end: request.dateRange.end || undefined
+      };
+    }
+
+    if (request.city) {
+      body.city = request.city;
+    }
+
+    if (request.paginationContext) {
+      body.paginationContext = {
+        page: request.paginationContext.page || 1,
+        pageSize: request.paginationContext.pageSize || 10
+      };
+    }
+
+    return this.http.post<TableDataResponse>(endpoint, body);
   }
 
   /**
    * Get columns configuration for a specific table
    */
-  getTableColumns(tableName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/columns/${tableName}`);
+  getTableColumns(tableName: string, plaza: string): Observable<ColumnMetadata[]> {
+    const apiUrl = this.plazaService.getApiUrl(plaza);
+    const endpoint = `${apiUrl}/raw-tables/columns/${tableName}`;
+    return this.http.get<ColumnMetadata[]>(endpoint);
   }
 }

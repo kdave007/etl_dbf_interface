@@ -94,7 +94,7 @@ export class RawTablesComponent implements OnInit {
     // For now, use mock data since API is not ready
     // When API is ready, uncomment the fetchData() call
     this.applyFilters();
-    // this.fetchDataFromAPI();
+    this.fetchDataFromAPI();
   }
 
   onPlazaChange(plaza: string) {
@@ -201,37 +201,63 @@ export class RawTablesComponent implements OnInit {
    */
   fetchDataFromAPI() {
     this.isLoading = true;
-    
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
 
     const request: TableDataRequest = {
       tableName: this.selectedTable,
-      plaza: this.selectedPlaza,
-      startIndex: startIndex,
-      endIndex: endIndex,
-      pageSize: this.pageSize,
-      currentPage: this.currentPage,
-      searchText: this.currentFilters?.searchText || undefined,
-      searchField: this.currentFilters?.selectedField || undefined,
-      dateStart: this.currentFilters?.dateRange?.start || undefined,
-      dateEnd: this.currentFilters?.dateRange?.end || undefined
+      paginationContext: {
+        page: this.currentPage,
+        pageSize: this.pageSize
+      }
     };
+
+    if (this.currentFilters?.dateRange?.start || this.currentFilters?.dateRange?.end) {
+      request.dateRange = {
+        start: this.currentFilters.dateRange?.start || undefined,
+        end: this.currentFilters.dateRange?.end || undefined
+      };
+    }
+
+    if (this.selectedPlaza) {
+      request.city = this.selectedPlaza;
+    }
 
     console.log('API Request:', request);
 
-    this.rawTablesService.getTableData(request).subscribe({
+    this.rawTablesService.getTableData(request, this.selectedPlaza).subscribe({
       next: (response) => {
         this.tableData = response.data;
-        this.totalRecords = response.totalRecords;
+        this.totalRecords = response.pagination.totalRecords;
+        
+        if (response.metadata && response.metadata.length > 0) {
+          this.tableColumns = response.metadata.map(col => ({
+            key: col.column_name,
+            label: col.column_name,
+            type: this.mapDataTypeToColumnType(col.data_type),
+            width: col.character_maximum_length ? `${Math.min(col.character_maximum_length * 8, 300)}px` : undefined
+          }));
+        }
+        
         this.isLoading = false;
         console.log('API Response:', response);
       },
       error: (error) => {
         console.error('Error fetching data:', error);
         this.isLoading = false;
-        // Handle error - show message to user
       }
     });
+  }
+
+  private mapDataTypeToColumnType(dataType: string): 'text' | 'number' | 'date' | 'boolean' {
+    const lowerType = dataType.toLowerCase();
+    if (lowerType.includes('int') || lowerType.includes('decimal') || lowerType.includes('numeric') || lowerType.includes('float')) {
+      return 'number';
+    }
+    if (lowerType.includes('date') || lowerType.includes('time')) {
+      return 'date';
+    }
+    if (lowerType.includes('bool') || lowerType.includes('bit')) {
+      return 'boolean';
+    }
+    return 'text';
   }
 }
