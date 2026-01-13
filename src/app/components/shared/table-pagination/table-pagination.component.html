@@ -7,28 +7,51 @@
             size="small" 
             status="basic"
             [disabled]="currentPage === 1"
-            (click)="previousPage()">
-      <nb-icon icon="arrow-back-outline"></nb-icon>
-      Anterior
+            (click)="firstPage()"
+            title="Primera página">
+      <nb-icon icon="arrowhead-left-outline"></nb-icon>
     </button>
     
-    <div class="page-numbers">
-      <button *ngFor="let page of pageNumbers"
-              nbButton
-              size="small"
-              [status]="currentPage === page ? 'primary' : 'basic'"
-              (click)="goToPage(page)">
-        {{ page }}
-      </button>
+    <button nbButton 
+            size="small" 
+            status="basic"
+            [disabled]="currentPage === 1"
+            (click)="previousPage()"
+            title="Página anterior">
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+    </button>
+    
+    <div class="page-input-group">
+      <span>Página</span>
+      <input nbInput
+             type="number"
+             [(ngModel)]="pageInput"
+             [value]="currentPage"
+             (keyup.enter)="goToInputPage()"
+             (blur)="goToInputPage()"
+             min="1"
+             [max]="totalPages"
+             size="small"
+             class="page-input">
+      <span>de {{ totalPages }}</span>
     </div>
     
     <button nbButton 
             size="small" 
             status="basic"
             [disabled]="currentPage === totalPages"
-            (click)="nextPage()">
-      Siguiente
+            (click)="nextPage()"
+            title="Página siguiente">
       <nb-icon icon="arrow-forward-outline"></nb-icon>
+    </button>
+    
+    <button nbButton 
+            size="small" 
+            status="basic"
+            [disabled]="currentPage === totalPages"
+            (click)="lastPage()"
+            title="Última página">
+      <nb-icon icon="arrowhead-right-outline"></nb-icon>
     </button>
   </div>
 </div>

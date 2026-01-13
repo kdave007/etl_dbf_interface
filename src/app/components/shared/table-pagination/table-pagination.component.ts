@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbButtonModule, NbIconModule } from '@nebular/theme';
+import { FormsModule } from '@angular/forms';
+import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @Component({
   selector: 'app-table-pagination',
   standalone: true,
-  imports: [CommonModule, NbButtonModule, NbIconModule, NbEvaIconsModule],
+  imports: [CommonModule, FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbEvaIconsModule],
   templateUrl: './table-pagination.component.html',
   styleUrl: './table-pagination.component.scss'
 })
 export class TablePaginationComponent {
   @Input() currentPage: number = 1;
-  @Input() pageSize: number = 5;
+  @Input() pageSize: number = 20;
   @Input() totalRecords: number = 0;
   @Output() pageChange = new EventEmitter<number>();
 
@@ -22,9 +23,7 @@ export class TablePaginationComponent {
     return Math.ceil(this.totalRecords / this.pageSize);
   }
 
-  get pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  pageInput: number = 1;
 
   get startRecord(): number {
     return (this.currentPage - 1) * this.pageSize + 1;
@@ -49,6 +48,23 @@ export class TablePaginationComponent {
   previousPage() {
     if (this.currentPage > 1) {
       this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  firstPage() {
+    this.goToPage(1);
+  }
+
+  lastPage() {
+    this.goToPage(this.totalPages);
+  }
+
+  goToInputPage() {
+    const page = Number(this.pageInput);
+    if (page >= 1 && page <= this.totalPages) {
+      this.goToPage(page);
+    } else {
+      this.pageInput = this.currentPage;
     }
   }
 }

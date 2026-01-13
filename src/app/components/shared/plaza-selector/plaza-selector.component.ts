@@ -15,11 +15,11 @@ export interface Plaza {
   styleUrl: './plaza-selector.component.scss'
 })
 export class PlazaSelectorComponent {
-  @Input() selectedPlaza: string = 'Xalapa';
+  @Input() selectedPlaza: string = 'xalap';
   @Output() selectedPlazaChange = new EventEmitter<string>();
 
   plazas: Plaza[] = [
-    { value: 'Xalapa', label: 'Xalapa' },
+    { value: 'xalap', label: 'Xalapa' },
     { value: 'Guadalajara', label: 'Guadalajara' },
     { value: 'Hermosillo', label: 'Hermosillo' }
   ];

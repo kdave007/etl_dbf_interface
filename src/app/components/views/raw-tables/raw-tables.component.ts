@@ -17,10 +17,11 @@ import { NbCardModule, NbIconModule, NbInputModule, NbButtonModule, NbSpinnerMod
   styleUrl: './raw-tables.component.scss',
 })
 export class RawTablesComponent implements OnInit {
-  selectedPlaza: string = 'Xalapa';
-  selectedTable: string = 'CANOTA';
+  selectedPlaza: string = 'xalap';
+  selectedTable: string = 'VENTA';
   isLoading: boolean = false;
   currentFilters: FilterValues | null = null;
+  currentDateField: string = 'FECHA';
 
   constructor(private rawTablesService: RawTablesService) {}
 
@@ -36,7 +37,7 @@ export class RawTablesComponent implements OnInit {
   
   // Pagination
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 20;
   totalRecords: number = 0;
   paginatedData: any[] = [];
 
@@ -91,9 +92,6 @@ export class RawTablesComponent implements OnInit {
   tableData: any[] = [];
 
   ngOnInit() {
-    // For now, use mock data since API is not ready
-    // When API is ready, uncomment the fetchData() call
-    this.applyFilters();
     this.fetchDataFromAPI();
   }
 
@@ -123,20 +121,16 @@ export class RawTablesComponent implements OnInit {
     
     console.log('Plaza changed to:', plaza, 'Table:', this.selectedTable);
     
-    // For now, use mock data. When API is ready, uncomment:
-    // this.fetchDataFromAPI();
-    this.applyFilters();
+    this.fetchDataFromAPI();
   }
 
   onFilterChange(filters: FilterValues) {
     this.currentFilters = filters;
-    this.currentPage = 1; // Reset to first page when filters change
+    this.currentPage = 1;
     
     console.log('Filters applied:', filters);
     
-    // For now, use mock data. When API is ready, uncomment:
-    // this.fetchDataFromAPI();
-    this.applyFilters();
+    this.fetchDataFromAPI();
   }
 
   applyFilters() {
@@ -159,15 +153,15 @@ export class RawTablesComponent implements OnInit {
     
     console.log('Page changed to:', page);
     
-    // For now, use mock data. When API is ready, uncomment:
-    // this.fetchDataFromAPI();
-    this.applyFilters();
+    this.fetchDataFromAPI();
   }
 
   onTableChange(tableName: string) {
     this.selectedTable = tableName;
     
-    // Reset all filters except plaza selector by creating a new config object
+    this.tableColumns = [];
+    this.tableData = [];
+    
     this.filterConfig = {
       showTextFilter: true,
       showDateFilter: true,
@@ -186,13 +180,11 @@ export class RawTablesComponent implements OnInit {
     };
     
     this.currentPage = 1;
-    this.currentFilters = null; // Reset filters
+    this.currentFilters = null;
     
     console.log('Table changed to:', tableName, 'Plaza:', this.selectedPlaza);
     
-    // For now, use mock data. When API is ready, uncomment:
-    // this.fetchDataFromAPI();
-    this.applyFilters();
+    this.fetchDataFromAPI();
   }
 
   /**
@@ -217,16 +209,36 @@ export class RawTablesComponent implements OnInit {
       };
     }
 
+    if (this.currentFilters?.searchText && this.currentFilters?.selectedField) {
+      request.searchText = this.currentFilters.searchText;
+      request.searchField = this.currentFilters.selectedField;
+    }
+
     if (this.selectedPlaza) {
       request.city = this.selectedPlaza;
     }
 
+    console.log('=== Fetching Data ===');
+    console.log('Current Page:', this.currentPage);
+    console.log('Page Size:', this.pageSize);
     console.log('API Request:', request);
 
     this.rawTablesService.getTableData(request, this.selectedPlaza).subscribe({
       next: (response) => {
+        if (!response.success) {
+          console.error('API returned success: false');
+          this.isLoading = false;
+          return;
+        }
+
         this.tableData = response.data;
         this.totalRecords = response.pagination.totalRecords;
+        
+        console.log('=== API Response ===');
+        console.log('Data rows received:', response.data.length);
+        console.log('Total records:', response.pagination.totalRecords);
+        console.log('Current page from API:', response.pagination.page);
+        console.log('Page size from API:', response.pagination.pageSize);
         
         if (response.metadata && response.metadata.length > 0) {
           this.tableColumns = response.metadata.map(col => ({
@@ -235,6 +247,19 @@ export class RawTablesComponent implements OnInit {
             type: this.mapDataTypeToColumnType(col.data_type),
             width: col.character_maximum_length ? `${Math.min(col.character_maximum_length * 8, 300)}px` : undefined
           }));
+
+          this.filterConfig = {
+            ...this.filterConfig,
+            fields: response.metadata.map(col => ({
+              value: col.column_name,
+              label: col.column_name
+            }))
+          };
+        }
+
+        if (response.tableConfig) {
+          this.currentDateField = response.tableConfig.date_field;
+          this.updateFilterConfigForTable(response.tableConfig.date, response.tableConfig.date_field);
         }
         
         this.isLoading = false;
@@ -245,6 +270,21 @@ export class RawTablesComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private updateFilterConfigForTable(hasDateField: boolean, dateFieldName: string) {
+    this.filterConfig = {
+      ...this.filterConfig,
+      showDateFilter: hasDateField,
+      lockDateFilter: !hasDateField
+    };
+
+    if (!hasDateField && this.currentFilters?.dateRange) {
+      this.currentFilters = {
+        ...this.currentFilters,
+        dateRange: { start: null, end: null }
+      };
+    }
   }
 
   private mapDataTypeToColumnType(dataType: string): 'text' | 'number' | 'date' | 'boolean' {

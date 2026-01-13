@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NbCardModule, NbButtonModule, NbIconModule, NbSelectModule } from '@nebular/theme';
@@ -31,7 +31,7 @@ export interface TableOption {
   templateUrl: './dynamic-table.component.html',
   styleUrl: './dynamic-table.component.scss'
 })
-export class DynamicTableComponent implements OnInit {
+export class DynamicTableComponent implements OnInit, OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() data: any[] = [];
   @Input() showAllColumns: boolean = false;
@@ -46,6 +46,12 @@ export class DynamicTableComponent implements OnInit {
   ngOnInit() {
     this.showAll = this.showAllColumns;
     this.updateVisibleColumns();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['columns']) {
+      this.updateVisibleColumns();
+    }
   }
 
   updateVisibleColumns() {
