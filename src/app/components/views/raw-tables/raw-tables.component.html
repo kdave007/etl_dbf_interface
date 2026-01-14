@@ -11,8 +11,7 @@
 <nb-card>
   <nb-card-body>
     <div *ngIf="isLoading" class="loading-overlay">
-      <nb-spinner size="large" status="primary"></nb-spinner>
-      <p>Cargando datos...</p>
+      <nb-spinner size="large" status="primary" message="Cargando datos..."></nb-spinner>
     </div>
     
     <app-dynamic-table

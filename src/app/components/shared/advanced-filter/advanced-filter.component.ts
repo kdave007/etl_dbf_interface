@@ -114,10 +114,8 @@ export class AdvancedFilterComponent implements OnInit {
       this.dateRange = { start: null, end: null };
     }
     
-    // Only emit if not in manual mode, otherwise wait for Apply button
-    if (!this.config.manualApply) {
-      this.emitFilterChange();
-    }
+    // Always emit when clearing filters to reload data without filters
+    this.emitFilterChange();
   }
 
   private emitFilterChange() {
