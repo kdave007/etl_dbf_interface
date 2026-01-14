@@ -10,6 +10,12 @@
     color: #ffffff;
   }
 
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   .search-box {
     position: relative;
     width: 300px;
@@ -27,6 +33,31 @@
       color: #a4abb3;
       pointer-events: none;
     }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+
+    nb-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+
+      &.spinning {
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

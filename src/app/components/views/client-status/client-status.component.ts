@@ -9,7 +9,7 @@ import { ConnectionsTableComponent } from './connections-table/connections-table
   styleUrl: './client-status.component.scss'
 })
 export class ClientStatusComponent {
-  selectedCity: string = 'Xalapa';
+  selectedCity: string = 'xalap';
 
   onPlazaChange(plaza: string) {
     this.selectedCity = plaza;

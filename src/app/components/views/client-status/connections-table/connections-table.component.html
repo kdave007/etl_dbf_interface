@@ -2,13 +2,24 @@
   <nb-card-header>
     <div class="header-content">
       <h5>Active Connections</h5>
-      <div class="search-box">
-        <input nbInput 
-               type="text" 
-               placeholder="Search connections..." 
-               [(ngModel)]="searchTerm"
-               (ngModelChange)="filterConnections()">
-        <nb-icon icon="search-outline"></nb-icon>
+      <div class="header-actions">
+        <div class="search-box">
+          <input nbInput 
+                 type="text" 
+                 placeholder="Search connections..." 
+                 [(ngModel)]="searchTerm"
+                 (ngModelChange)="filterConnections()">
+          <nb-icon icon="search-outline"></nb-icon>
+        </div>
+        <button nbButton
+                size="small"
+                status="primary"
+                [disabled]="isLoading"
+                (click)="refreshData()"
+                title="Actualizar datos">
+          <nb-icon icon="refresh-outline" [class.spinning]="isLoading"></nb-icon>
+          Actualizar
+        </button>
       </div>
     </div>
   </nb-card-header>
@@ -17,27 +28,25 @@
       <table class="connections-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Client ID</th>
             <th>Sucursal</th>
             <th>Plaza</th>
             <th>Estatus</th>
             <th>Ultima conexión</th>
-            <th>Database</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let conn of paginatedConnections" class="table-row">
-            <td>{{ conn.id }}</td>
-            <td>{{ conn.clientName }}</td>
-            <td class="city-cell">{{ getCityLabel(conn.city) }}</td>
+            <td>{{ conn.client_id }}</td>
+            <td>{{ conn.location }}</td>
+            <td class="city-cell">{{ conn.city }}</td>
             <td>
-              <span class="status-badge" [ngClass]="getStatusClass(conn.status)">
-                <nb-icon [icon]="getStatusIcon(conn.status)"></nb-icon>
-                {{ conn.status }}
+              <span class="status-badge" [ngClass]="getStatusClass(conn.status || 'Disconnected')">
+                <nb-icon [icon]="getStatusIcon(conn.status || 'Disconnected')"></nb-icon>
+                {{ conn.status || 'Disconnected' }}
               </span>
             </td>
-            <td>{{ conn.lastSync }}</td>
-            <td>{{ conn.database }}</td>
+            <td>{{ formatLastSeen(conn.last_seen) }}</td>
           </tr>
         </tbody>
       </table>
