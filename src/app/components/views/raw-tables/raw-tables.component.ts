@@ -39,7 +39,6 @@ export class RawTablesComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 20;
   totalRecords: number = 0;
-  paginatedData: any[] = [];
 
   filterConfig: FilterConfig = {
     showTextFilter: true,
@@ -58,37 +57,7 @@ export class RawTablesComponent implements OnInit {
     }
   };
 
-  // Example table configuration
-  tableColumns: TableColumn[] = [
-    { key: 'id', label: 'ID', type: 'number', width: '80px' },
-    { key: 'name', label: 'Nombre', type: 'text' },
-    { key: 'code', label: 'Código', type: 'text' },
-    { key: 'description', label: 'Descripción', type: 'text' },
-    { key: 'status', label: 'Estado', type: 'text' },
-    { key: 'date', label: 'Fecha', type: 'date' },
-    { key: 'active', label: 'Activo', type: 'boolean' },
-    { key: 'amount', label: 'Monto', type: 'number' },
-    { key: 'category', label: 'Categoría', type: 'text' },
-    { key: 'location', label: 'Ubicación', type: 'text' },
-    { key: 'email', label: 'Email', type: 'text' },
-    { key: 'phone', label: 'Teléfono', type: 'text' },
-  ];
-
-  allTableData: any[] = [
-    { id: 1, name: 'Registro 1', code: 'REG001', description: 'Descripción del registro 1', status: 'Activo', date: '2026-01-01', active: true, amount: 1500, category: 'Categoría A', location: 'Xalapa', email: 'test1@example.com', phone: '555-0001' },
-    { id: 2, name: 'Registro 2', code: 'REG002', description: 'Descripción del registro 2', status: 'Inactivo', date: '2026-01-02', active: false, amount: 2500, category: 'Categoría B', location: 'Guadalajara', email: 'test2@example.com', phone: '555-0002' },
-    { id: 3, name: 'Registro 3', code: 'REG003', description: 'Descripción del registro 3', status: 'Activo', date: '2026-01-03', active: true, amount: 3500, category: 'Categoría C', location: 'Hermosillo', email: 'test3@example.com', phone: '555-0003' },
-    { id: 4, name: 'Registro 4', code: 'REG004', description: 'Descripción del registro 4', status: 'Activo', date: '2026-01-04', active: true, amount: 4500, category: 'Categoría A', location: 'Xalapa', email: 'test4@example.com', phone: '555-0004' },
-    { id: 5, name: 'Registro 5', code: 'REG005', description: 'Descripción del registro 5', status: 'Inactivo', date: '2026-01-05', active: false, amount: 5500, category: 'Categoría B', location: 'Guadalajara', email: 'test5@example.com', phone: '555-0005' },
-    { id: 6, name: 'Registro 6', code: 'REG006', description: 'Descripción del registro 6', status: 'Activo', date: '2026-01-06', active: true, amount: 6500, category: 'Categoría C', location: 'Hermosillo', email: 'test6@example.com', phone: '555-0006' },
-    { id: 7, name: 'Registro 7', code: 'REG007', description: 'Descripción del registro 7', status: 'Activo', date: '2026-01-07', active: true, amount: 7500, category: 'Categoría A', location: 'Xalapa', email: 'test7@example.com', phone: '555-0007' },
-    { id: 8, name: 'Registro 8', code: 'REG008', description: 'Descripción del registro 8', status: 'Inactivo', date: '2026-01-08', active: false, amount: 8500, category: 'Categoría B', location: 'Guadalajara', email: 'test8@example.com', phone: '555-0008' },
-    { id: 9, name: 'Registro 9', code: 'REG009', description: 'Descripción del registro 9', status: 'Activo', date: '2026-01-09', active: true, amount: 9500, category: 'Categoría C', location: 'Hermosillo', email: 'test9@example.com', phone: '555-0009' },
-    { id: 10, name: 'Registro 10', code: 'REG010', description: 'Descripción del registro 10', status: 'Activo', date: '2026-01-10', active: true, amount: 10500, category: 'Categoría A', location: 'Xalapa', email: 'test10@example.com', phone: '555-0010' },
-    { id: 11, name: 'Registro 11', code: 'REG011', description: 'Descripción del registro 11', status: 'Inactivo', date: '2026-01-11', active: false, amount: 11500, category: 'Categoría B', location: 'Guadalajara', email: 'test11@example.com', phone: '555-0011' },
-    { id: 12, name: 'Registro 12', code: 'REG012', description: 'Descripción del registro 12', status: 'Activo', date: '2026-01-12', active: true, amount: 12500, category: 'Categoría C', location: 'Hermosillo', email: 'test12@example.com', phone: '555-0012' },
-  ];
-
+  tableColumns: TableColumn[] = [];
   tableData: any[] = [];
 
   ngOnInit() {
@@ -131,21 +100,6 @@ export class RawTablesComponent implements OnInit {
     console.log('Filters applied:', filters);
     
     this.fetchDataFromAPI();
-  }
-
-  applyFilters() {
-    // Filter by plaza
-    let filtered = this.allTableData.filter(item => item.location === this.selectedPlaza);
-    
-    this.totalRecords = filtered.length;
-    this.updatePagination(filtered);
-  }
-
-  updatePagination(data: any[]) {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedData = data.slice(startIndex, endIndex);
-    this.tableData = this.paginatedData;
   }
 
   onPageChange(page: number) {
