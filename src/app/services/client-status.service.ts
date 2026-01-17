@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PlazaService } from './plaza.service';
 
 export interface ClientConnection {
@@ -19,6 +19,8 @@ export interface ClientStatusResponse {
   providedIn: 'root'
 })
 export class ClientStatusService {
+  private clientStatusSubject = new BehaviorSubject<ClientStatusResponse | null>(null);
+  public clientStatus$ = this.clientStatusSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -33,5 +35,12 @@ export class ClientStatusService {
     const endpoint = `${apiUrl}/api/clients_status`;
 
     return this.http.get<ClientStatusResponse>(endpoint);
+  }
+
+  /**
+   * Update the shared client status data
+   */
+  updateClientStatus(data: ClientStatusResponse): void {
+    this.clientStatusSubject.next(data);
   }
 }

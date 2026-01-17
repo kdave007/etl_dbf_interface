@@ -73,7 +73,7 @@ export class SidebarComponent {
     {
       title: 'Settings',
       icon: 'settings-2-outline',
-      link: '/settings'
+      link: '/configuracion'
     },
     {
       title: 'Help',

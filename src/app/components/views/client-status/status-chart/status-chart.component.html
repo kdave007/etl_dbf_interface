@@ -1,0 +1,60 @@
+<div class="status-chart-container">
+  <div class="chart-wrapper">
+    <svg class="circular-chart" viewBox="0 0 100 100">
+      <!-- Background circle -->
+      <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+      
+      <!-- Connected segment -->
+      <circle 
+        *ngIf="stats.connectedPercent > 0"
+        class="circle-connected" 
+        cx="50" 
+        cy="50" 
+        r="45"
+        [attr.stroke-dasharray]="getStrokeDasharray(stats.connectedPercent)"
+        [attr.stroke-dashoffset]="getStrokeDashoffset(0)">
+      </circle>
+      
+      <!-- Disconnected segment -->
+      <circle 
+        *ngIf="stats.disconnectedPercent > 0"
+        class="circle-disconnected" 
+        cx="50" 
+        cy="50" 
+        r="45"
+        [attr.stroke-dasharray]="getStrokeDasharray(stats.disconnectedPercent)"
+        [attr.stroke-dashoffset]="getStrokeDashoffset(stats.connectedPercent)">
+      </circle>
+      
+      <!-- Error segment -->
+      <circle 
+        *ngIf="stats.errorPercent > 0"
+        class="circle-error" 
+        cx="50" 
+        cy="50" 
+        r="45"
+        [attr.stroke-dasharray]="getStrokeDasharray(stats.errorPercent)"
+        [attr.stroke-dashoffset]="getStrokeDashoffset(stats.connectedPercent + stats.disconnectedPercent)">
+      </circle>
+      
+      <!-- Center text -->
+      <text x="50" y="50" class="chart-total">{{ stats.total }}</text>
+      <text x="50" y="60" class="chart-label">Clients</text>
+    </svg>
+  </div>
+  
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-color connected"></span>
+      <span class="legend-text">Connected: {{ stats.connected }} ({{ stats.connectedPercent }}%)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color disconnected"></span>
+      <span class="legend-text">Disconnected: {{ stats.disconnected }} ({{ stats.disconnectedPercent }}%)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color error"></span>
+      <span class="legend-text">Error: {{ stats.error }} ({{ stats.errorPercent }}%)</span>
+    </div>
+  </div>
+</div>

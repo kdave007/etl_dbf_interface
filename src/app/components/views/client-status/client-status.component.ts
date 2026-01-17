@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { PlazaSelectorComponent } from '../../shared/plaza-selector/plaza-selector.component';
 import { ConnectionsTableComponent } from './connections-table/connections-table.component';
+import { StatusChartComponent } from './status-chart/status-chart.component';
 
 @Component({
   selector: 'app-client-status',
-  imports: [PlazaSelectorComponent, ConnectionsTableComponent],
+  imports: [PlazaSelectorComponent, ConnectionsTableComponent, StatusChartComponent],
   templateUrl: './client-status.component.html',
   styleUrl: './client-status.component.scss'
 })

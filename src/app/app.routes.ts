@@ -22,6 +22,12 @@ export const routes: Routes = [
     path: 'tablas',
     loadComponent: () => import('./components//views/raw-tables/raw-tables.component')
       .then(m => m.RawTablesComponent),
-    title: 'Tablas'
+    title: 'Datos'
+  },
+  {
+    path: 'configuracion',
+    loadComponent: () => import('./components//views/settings/settings.component')
+      .then(m => m.SettingsComponent),
+    title: 'configuración'
   }
 ];

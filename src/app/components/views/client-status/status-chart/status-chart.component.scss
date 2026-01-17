@@ -1,0 +1,103 @@
+.status-chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.chart-wrapper {
+  width: 200px;
+  height: 200px;
+}
+
+.circular-chart {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 10;
+}
+
+.circle-connected,
+.circle-disconnected,
+.circle-error {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease;
+}
+
+.circle-connected {
+  stroke: #00d68f;
+}
+
+.circle-disconnected {
+  stroke: #ffaa00;
+}
+
+.circle-error {
+  stroke: #ff3d71;
+}
+
+.chart-total {
+  fill: #222b45;
+  font-size: 20px;
+  font-weight: bold;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transform: rotate(90deg);
+  transform-origin: 50px 50px;
+}
+
+.chart-label {
+  fill: #8f9bb3;
+  font-size: 8px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transform: rotate(90deg);
+  transform-origin: 50px 50px;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 250px;
+  color: #f4f7f7;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  
+  &.connected {
+    background-color: #00d68f;
+  }
+  
+  &.disconnected {
+    background-color: #ffaa00;
+  }
+  
+  &.error {
+    background-color: #ff3d71;
+  }
+}
+
+.legend-text {
+  font-size: 0.875rem;
+  color: #dde0e1;
+}

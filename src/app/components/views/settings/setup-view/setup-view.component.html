@@ -1,0 +1,203 @@
+<div class="setup-container">
+  <div class="setup-header">
+    <div class="header-content">
+      <h1 class="setup-title">Configuración</h1>
+      <p class="setup-subtitle">Administra los parámetros de sincronización y base de datos.</p>
+    </div>
+    <div class="plaza-selector-wrapper">
+      <label class="plaza-label">Sucursal:</label>
+      <nb-select [(selected)]="selectedSucursal" 
+                 (selectedChange)="onSucursalChange($event)"
+                 placeholder="Seleccione una sucursal"
+                 class="plaza-select">
+        <nb-option *ngFor="let sucursal of sucursales" [value]="sucursal.value">
+          {{ sucursal.label }}
+        </nb-option>
+      </nb-select>
+    </div>
+  </div>
+
+  <div *ngIf="selectedSucursal" class="config-sections">
+    <div class="section-row">
+      <nb-card class="config-section">
+        <nb-card-body>
+          <div class="section-header">
+            <nb-icon icon="settings-2-outline" class="section-icon"></nb-icon>
+            <h3 class="section-title">General Settings</h3>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">DB Name</label>
+            <input nbInput 
+                   [(ngModel)]="config.DB_NAME"
+                   placeholder="XMIGU"
+                   class="field-input">
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Version</label>
+            <input nbInput 
+                   [(ngModel)]="config.VERSION"
+                   placeholder="batch_001"
+                   class="field-input">
+          </div>
+
+          <div class="form-row">
+            <div class="form-field half-width">
+              <label class="field-label">Debug Level</label>
+              <input nbInput 
+                     type="number"
+                     [(ngModel)]="config.DEBUG"
+                     placeholder="0"
+                     class="field-input">
+            </div>
+
+            <div class="form-field half-width">
+              <label class="field-label">Stop Flag</label>
+              <input nbInput 
+                     type="number"
+                     [(ngModel)]="config.STOP_FLAG"
+                     placeholder="0"
+                     class="field-input">
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+
+      <nb-card class="config-section">
+        <nb-card-body>
+          <div class="section-header">
+            <nb-icon icon="sync-outline" class="section-icon"></nb-icon>
+            <h3 class="section-title">Sync & Database</h3>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field half-width">
+              <label class="field-label">DBF Chunks Size</label>
+              <input nbInput 
+                     type="number"
+                     [(ngModel)]="config.DBF_CHUNKS_SIZE"
+                     placeholder="500"
+                     class="field-input">
+            </div>
+
+            <div class="form-field half-width">
+              <label class="field-label">SQL Enabled</label>
+              <nb-select [(selected)]="config.SQL_ENABLED"
+                         class="field-input">
+                <nb-option [value]="1">Enabled (1)</nb-option>
+                <nb-option [value]="0">Disabled (0)</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Post API Base</label>
+            <div class="input-with-icon">
+              <nb-icon icon="link-2-outline" class="input-icon"></nb-icon>
+              <input nbInput 
+                     [(ngModel)]="config.POST_API_BASE"
+                     placeholder="http://canovas.camposreye..."
+                     class="field-input with-icon">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Status API Base</label>
+            <div class="input-with-icon">
+              <nb-icon icon="link-2-outline" class="input-icon"></nb-icon>
+              <input nbInput 
+                     [(ngModel)]="config.STATUS_API_BASE"
+                     placeholder="http://canovas.camposreye..."
+                     class="field-input with-icon">
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <nb-card class="config-section full-width">
+      <nb-card-body>
+        <div class="section-header">
+          <nb-icon icon="calendar-outline" class="section-icon"></nb-icon>
+          <h3 class="section-title">Data Range & Operations</h3>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field third-width">
+            <label class="field-label">Start Date</label>
+            <input nbInput 
+                   type="date"
+                   [(ngModel)]="config.START_DATE"
+                   placeholder="mm/dd/yyyy"
+                   class="field-input">
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Custom Date Range</label>
+            <input nbInput 
+                   type="number"
+                   [(ngModel)]="config.CUSTOM_DATE_RANGE"
+                   placeholder="1"
+                   class="field-input">
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Update Items</label>
+            <input nbInput 
+                   [(ngModel)]="config.UPDATE"
+                   placeholder="items"
+                   class="field-input">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field third-width">
+            <label class="field-label">End Date (Offset)</label>
+            <input nbInput 
+                   type="number"
+                   [(ngModel)]="config.END_DATE"
+                   placeholder="0"
+                   class="field-input">
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Create Items</label>
+            <input nbInput 
+                   [(ngModel)]="config.CREATE"
+                   placeholder="items"
+                   class="field-input">
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Delete Items</label>
+            <input nbInput 
+                   [(ngModel)]="config.DELETE"
+                   placeholder="items"
+                   class="field-input">
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+    <div class="action-buttons">
+      <button nbButton 
+              status="basic"
+              size="large"
+              (click)="resetConfig()"
+              class="reset-button">
+        <nb-icon icon="refresh-outline"></nb-icon>
+        RESTABLECER
+      </button>
+      
+      <button nbButton 
+              status="primary"
+              size="large"
+              (click)="saveConfig()"
+              class="save-button">
+        <nb-icon icon="save-outline"></nb-icon>
+        GUARDAR CONFIGURACIÓN
+      </button>
+    </div>
+  </div>
+</div>

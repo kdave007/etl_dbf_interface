@@ -61,6 +61,7 @@ export class ConnectionsTableComponent implements OnInit, OnChanges {
             status: this.determineStatus(conn.last_seen)
           }));
           this.applyFilters();
+          this.clientStatusService.updateClientStatus(response);
         }
         this.isLoading = false;
       },
