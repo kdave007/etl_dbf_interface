@@ -9,12 +9,11 @@ import { SetupViewComponent } from './setup-view/setup-view.component';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-onPlazaChange($event: string) {
-throw new Error('Method not implemented.');
-}
-selectedCity: any;
-  constructor(){
-        
-  }
+  selectedCity: string = 'xalap';
 
+  constructor() {}
+
+  onPlazaChange(plaza: string) {
+    this.selectedCity = plaza;
+  }
 }

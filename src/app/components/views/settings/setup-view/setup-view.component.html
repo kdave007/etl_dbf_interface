@@ -9,7 +9,9 @@
       <nb-select [(selected)]="selectedSucursal" 
                  (selectedChange)="onSucursalChange($event)"
                  placeholder="Seleccione una sucursal"
+                 [disabled]="loadingSucursales || sucursales.length === 0"
                  class="plaza-select">
+        <nb-option *ngIf="loadingSucursales" value="">Cargando...</nb-option>
         <nb-option *ngFor="let sucursal of sucursales" [value]="sucursal.value">
           {{ sucursal.label }}
         </nb-option>
@@ -44,21 +46,13 @@
 
           <div class="form-row">
             <div class="form-field half-width">
-              <label class="field-label">Debug Level</label>
-              <input nbInput 
-                     type="number"
-                     [(ngModel)]="config.DEBUG"
-                     placeholder="0"
-                     class="field-input">
+              <label class="field-label">Debug</label>
+              <nb-toggle [(checked)]="config.DEBUG"></nb-toggle>
             </div>
 
             <div class="form-field half-width">
               <label class="field-label">Stop Flag</label>
-              <input nbInput 
-                     type="number"
-                     [(ngModel)]="config.STOP_FLAG"
-                     placeholder="0"
-                     class="field-input">
+              <nb-toggle [(checked)]="config.STOP_FLAG"></nb-toggle>
             </div>
           </div>
         </nb-card-body>
@@ -83,11 +77,7 @@
 
             <div class="form-field half-width">
               <label class="field-label">SQL Enabled</label>
-              <nb-select [(selected)]="config.SQL_ENABLED"
-                         class="field-input">
-                <nb-option [value]="1">Enabled (1)</nb-option>
-                <nb-option [value]="0">Disabled (0)</nb-option>
-              </nb-select>
+              <nb-toggle [(checked)]="config.SQL_ENABLED"></nb-toggle>
             </div>
           </div>
 
@@ -135,11 +125,7 @@
 
           <div class="form-field third-width">
             <label class="field-label">Custom Date Range</label>
-            <input nbInput 
-                   type="number"
-                   [(ngModel)]="config.CUSTOM_DATE_RANGE"
-                   placeholder="1"
-                   class="field-input">
+            <nb-toggle [(checked)]="config.CUSTOM_DATE_RANGE"></nb-toggle>
           </div>
 
           <div class="form-field third-width">
