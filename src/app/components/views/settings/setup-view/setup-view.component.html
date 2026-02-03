@@ -166,6 +166,77 @@
       </nb-card-body>
     </nb-card>
 
+    <nb-card class="config-section full-width">
+      <nb-card-body>
+        <div class="section-header">
+          <nb-icon icon="list-outline" class="section-icon"></nb-icon>
+          <h3 class="section-title">Tables & Operations</h3>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Tables (comma-separated)</label>
+          <input nbInput 
+                 [(ngModel)]="config.TABLES"
+                 placeholder="XCORTE,CANOTA,CUNOTA,VENTA,PARTVTA,COBRANZA,FLUJORES"
+                 class="field-input">
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Command Line (JSON)</label>
+          <input nbInput 
+                 [(ngModel)]="config.COMMAND_LINE"
+                 placeholder='{"task":"replace_recno"}'
+                 class="field-input">
+        </div>
+
+        <div class="form-row">
+          <div class="form-field third-width">
+            <label class="field-label">Key ID Bypass</label>
+            <nb-toggle [(checked)]="config.KEY_ID_BYPASS"></nb-toggle>
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Special Operations</label>
+            <nb-toggle [(checked)]="config.SPECIAL_OPS"></nb-toggle>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+    <nb-card class="config-section full-width">
+      <nb-card-body>
+        <div class="section-header">
+          <nb-icon icon="moon-outline" class="section-icon"></nb-icon>
+          <h3 class="section-title">Night Sync Configuration</h3>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field third-width">
+            <label class="field-label">Night Sync Enabled</label>
+            <nb-toggle [(checked)]="config.NIGHT_SYNC_ENABLED"></nb-toggle>
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Night Sync Start</label>
+            <input nbInput 
+                   type="time"
+                   [(ngModel)]="config.NIGHT_SYNC_START"
+                   placeholder="21:00"
+                   class="field-input">
+          </div>
+
+          <div class="form-field third-width">
+            <label class="field-label">Night Sync End</label>
+            <input nbInput 
+                   type="time"
+                   [(ngModel)]="config.NIGHT_SYNC_END"
+                   placeholder="06:00"
+                   class="field-input">
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
     <div class="action-buttons">
       <button nbButton 
               status="basic"
