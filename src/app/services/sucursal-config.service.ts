@@ -5,7 +5,7 @@ import { PlazaService } from './plaza.service';
  
 export interface SucursalConfigRequest {
   command: string;
-  client_id: string;
+  client_ids: string[];
 }
 
 export interface SucursalConfigItem {
@@ -36,6 +36,30 @@ export interface SucursalListResponse {
   data: Sucursal[];
 }
 
+export interface BulkUpdateRequest {
+  client_ids: string[];
+  config: Record<string, any>;
+}
+
+export interface BulkUpdateResponse {
+  success: boolean;
+  updated: number;
+  failed: number;
+  errors?: string[];
+}
+
+export interface UpdateConfigRequest {
+  command: string;
+  client_ids: string[];
+  settings: SucursalConfigItem[];
+}
+
+export interface UpdateConfigResponse {
+  success: boolean;
+  client_id: string;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -54,7 +78,7 @@ export class SucursalConfigService {
 
     const body: SucursalConfigRequest = {
       command: 'get',
-      client_id: clientId
+      client_ids: [clientId]
     };
 
     return this.http.post<SucursalConfigResponse>(endpoint, body);
@@ -90,5 +114,49 @@ export class SucursalConfigService {
     };
 
     return this.http.post<SucursalListResponse>(endpoint, body);
+  }
+
+  /**
+   * Update configuration for multiple sucursales
+   * Note: DB_NAME should be excluded from config before calling this method
+   */
+  updateMultipleSucursales(clientIds: string[], config: any, plaza: string): Observable<BulkUpdateResponse> {
+    const apiUrl = this.plazaService.getApiUrl(plaza);
+    const endpoint = `${apiUrl}/api/client_settings`;
+
+    const configArray = Object.entries(config).map(([key, value]) => ({
+      key,
+      value: typeof value === 'boolean' ? (value ? '1' : '0') : String(value)
+    }));
+
+    const body: UpdateConfigRequest = {
+      command: 'bulk_update',
+      client_ids: clientIds,
+      settings: configArray
+    };
+
+    return this.http.post<BulkUpdateResponse>(endpoint, body);
+  }
+
+  /**
+   * Update configuration for a single sucursal
+   * Use this for the "GUARDAR CONFIGURACIÓN" button
+   */
+  updateSucursalConfig(clientId: string, config: any, plaza: string): Observable<UpdateConfigResponse> {
+    const apiUrl = this.plazaService.getApiUrl(plaza);
+    const endpoint = `${apiUrl}/api/client_settings`;
+
+    const configArray = Object.entries(config).map(([key, value]) => ({
+      key,
+      value: typeof value === 'boolean' ? (value ? '1' : '0') : String(value)
+    }));
+
+    const body: UpdateConfigRequest = {
+      command: 'update',
+      client_ids: [clientId],
+      settings: configArray
+    };
+
+    return this.http.post<UpdateConfigResponse>(endpoint, body);
   }
 }

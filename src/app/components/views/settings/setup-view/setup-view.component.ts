@@ -1,19 +1,24 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NbCardModule, NbSelectModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule } from '@nebular/theme';
+import { NbCardModule, NbSelectModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbDialogService, NbCheckboxModule, NbAlertModule, NbToastrService } from '@nebular/theme';
 import { SucursalConfigService } from '../../../../services/sucursal-config.service';
 
 @Component({
   selector: 'app-setup-view',
-  imports: [NbCardModule, NbSelectModule, CommonModule, FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule],
+  imports: [NbCardModule, NbSelectModule, CommonModule, FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbCheckboxModule, NbAlertModule],
   templateUrl: './setup-view.component.html',
   styleUrl: './setup-view.component.scss'
 })
 export class SetupViewComponent implements OnInit, OnChanges {
   @Input() selectedPlaza: string = 'xalap';
+  @ViewChild('copyToStoresDialog') copyToStoresDialog!: TemplateRef<any>;
   
-  constructor(private sucursalConfigService: SucursalConfigService) {}
+  constructor(
+    private sucursalConfigService: SucursalConfigService,
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService
+  ) {}
   selectedSucursal: any;
   loading = false;
   loadingSucursales = false;
@@ -144,12 +149,101 @@ export class SetupViewComponent implements OnInit, OnChanges {
       });
   }
 
+  savingConfig = false;
+
   saveConfig() {
-    console.log('Saving configuration:', this.config);
+    if (!this.selectedSucursal) {
+      return;
+    }
+
+    this.savingConfig = true;
+    this.error = null;
+
+    this.sucursalConfigService.updateSucursalConfig(this.selectedSucursal, this.config, this.selectedPlaza)
+      .subscribe({
+        next: (response: any) => {
+          console.log('Configuration saved successfully', response);
+          this.originalConfig = { ...this.config };
+          this.savingConfig = false;
+          this.toastrService.success('Configuración guardada exitosamente', 'Éxito');
+        },
+        error: (err: any) => {
+          console.error('Error saving configuration:', err);
+          this.error = 'Failed to save configuration';
+          this.savingConfig = false;
+          this.toastrService.danger('Error al guardar la configuración', 'Error');
+        }
+      });
   }
 
   resetConfig() {
     this.config = { ...this.originalConfig };
     console.log('Configuration reset');
+  }
+
+  selectedStoresForCopy: Set<string> = new Set();
+  copyingToStores = false;
+
+  openCopyToStoresModal() {
+    if (!this.selectedSucursal) {
+      return;
+    }
+    
+    this.selectedStoresForCopy.clear();
+    this.dialogService.open(this.copyToStoresDialog, {
+      context: {
+        availableStores: this.sucursales.filter(s => s.value !== this.selectedSucursal)
+      }
+    });
+  }
+
+  toggleStoreSelection(storeId: string) {
+    if (this.selectedStoresForCopy.has(storeId)) {
+      this.selectedStoresForCopy.delete(storeId);
+    } else {
+      this.selectedStoresForCopy.add(storeId);
+    }
+  }
+
+  isStoreSelected(storeId: string): boolean {
+    return this.selectedStoresForCopy.has(storeId);
+  }
+
+  selectAllStores() {
+    this.sucursales
+      .filter(s => s.value !== this.selectedSucursal)
+      .forEach(s => this.selectedStoresForCopy.add(s.value));
+  }
+
+  clearAllStores() {
+    this.selectedStoresForCopy.clear();
+  }
+
+  copyConfigToStores(dialogRef: any) {
+    if (this.selectedStoresForCopy.size === 0) {
+      return;
+    }
+
+    this.copyingToStores = true;
+    const configToCopy = { ...this.config };
+    delete (configToCopy as any).DB_NAME;
+
+    const storeIds = Array.from(this.selectedStoresForCopy);
+    
+    this.sucursalConfigService.updateMultipleSucursales(storeIds, configToCopy, this.selectedPlaza)
+      .subscribe({
+        next: (response: any) => {
+          console.log('Configuration copied successfully', response);
+          this.copyingToStores = false;
+          dialogRef.close();
+          this.toastrService.success(`Configuración copiada a ${storeIds.length} tienda(s)`, 'Éxito');
+        },
+        error: (err: any) => {
+          console.error('Error copying configuration:', err);
+          this.error = 'Failed to copy configuration to stores';
+          this.copyingToStores = false;
+          this.toastrService.danger('Error al copiar la configuración', 'Error');
+        }
+      });
   }
 }

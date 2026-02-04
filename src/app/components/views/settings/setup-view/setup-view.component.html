@@ -248,13 +248,83 @@
       </button>
       
       <button nbButton 
+              status="info"
+              size="large"
+              (click)="openCopyToStoresModal()"
+              class="copy-button">
+        <nb-icon icon="copy-outline"></nb-icon>
+        COPIAR A OTRAS TIENDAS
+      </button>
+      
+      <button nbButton 
               status="primary"
               size="large"
               (click)="saveConfig()"
+              [disabled]="savingConfig"
               class="save-button">
-        <nb-icon icon="save-outline"></nb-icon>
-        GUARDAR CONFIGURACIÓN
+        <nb-icon *ngIf="!savingConfig" icon="save-outline"></nb-icon>
+        <nb-icon *ngIf="savingConfig" icon="loader-outline" class="spin"></nb-icon>
+        {{ savingConfig ? 'GUARDANDO...' : 'GUARDAR CONFIGURACIÓN' }}
       </button>
     </div>
   </div>
 </div>
+
+<ng-template #copyToStoresDialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h5>Copiar Configuración a Otras Tiendas</h5>
+        <button nbButton ghost (click)="ref.close()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div style="margin-bottom: 1rem;">
+        <nb-alert status="warning" style="margin-bottom: 1rem;">
+          <strong>Nota:</strong> El campo <strong>DB_NAME</strong> NO será copiado para mantener nombres únicos por tienda.
+        </nb-alert>
+        
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+          <button nbButton size="small" status="basic" (click)="selectAllStores()">
+            Seleccionar Todas
+          </button>
+          <button nbButton size="small" status="basic" (click)="clearAllStores()">
+            Limpiar Selección
+          </button>
+        </div>
+
+        <div style="max-height: 300px; overflow-y: auto;">
+          <div *ngFor="let store of sucursales" style="margin-bottom: 0.5rem;">
+            <nb-checkbox 
+              *ngIf="store.value !== selectedSucursal"
+              [checked]="isStoreSelected(store.value)"
+              (checkedChange)="toggleStoreSelection(store.value)">
+              {{ store.label }} ({{ store.value }})
+            </nb-checkbox>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 0.5rem;  border-radius: 4px;">
+          <strong>Tiendas seleccionadas:</strong> {{ selectedStoresForCopy.size }}
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+        <button nbButton status="basic" (click)="ref.close()">
+          Cancelar
+        </button>
+        <button nbButton 
+                status="primary" 
+                [disabled]="selectedStoresForCopy.size === 0 || copyingToStores"
+                (click)="copyConfigToStores(ref)">
+          <nb-icon *ngIf="!copyingToStores" icon="copy-outline"></nb-icon>
+          <nb-icon *ngIf="copyingToStores" icon="loader-outline" class="spin"></nb-icon>
+          {{ copyingToStores ? 'Copiando...' : 'Copiar Configuración' }}
+        </button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
