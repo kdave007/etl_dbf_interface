@@ -25,7 +25,8 @@ export class SetupViewComponent implements OnInit, OnChanges {
   error: string | null = null;
   
   plazas: Array<{value: string, label: string}> = [
-    { value: 'XALAP', label: 'Xalapa' }
+    { value: 'XALAP', label: 'Xalapa' },
+    { value: 'CHETU', label: 'Chetumal' }
   ];
   
   sucursales: Array<{value: string, label: string}> = [];

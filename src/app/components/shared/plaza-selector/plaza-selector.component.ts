@@ -20,6 +20,7 @@ export class PlazaSelectorComponent {
 
   plazas: Plaza[] = [
     { value: 'xalap', label: 'Xalapa' },
+    { value: 'chetu', label: 'Chetumal' },
     { value: 'Guadalajara', label: 'Guadalajara' },
     { value: 'Hermosillo', label: 'Hermosillo' }
   ];

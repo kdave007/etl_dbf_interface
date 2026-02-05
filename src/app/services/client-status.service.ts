@@ -15,6 +15,10 @@ export interface ClientStatusResponse {
   data: ClientConnection[];
 }
 
+export interface ClientStatusRequest {
+  city: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,9 +36,18 @@ export class ClientStatusService {
    */
   getClientConnections(city: string): Observable<ClientStatusResponse> {
     const apiUrl = this.plazaService.getApiUrl(city);
-    const endpoint = `${apiUrl}/api/clients_status`;
+    const endpoint = `${apiUrl}/api/clients_status_by_plaza`;
 
-    return this.http.get<ClientStatusResponse>(endpoint);
+    const cityMap: Record<string, string> = {
+      'xalap': 'XALAP',
+      'chetu': 'CHETU'
+    };
+
+    const body: ClientStatusRequest = {
+      city: cityMap[city] || city.toUpperCase()
+    };
+
+    return this.http.post<ClientStatusResponse>(endpoint, body);
   }
 
   /**
