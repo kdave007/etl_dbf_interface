@@ -11,8 +11,8 @@
       <nb-action>
         <nb-user 
           [nbContextMenu]="userMenu"
-          name="Admin User"
-          title="Administrator"
+          nbContextMenuTag="user-context-menu"
+          [name]="currentUser"
           size="medium"
           onlyPicture="false">
         </nb-user>

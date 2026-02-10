@@ -1,4 +1,4 @@
-<nb-layout>
+<nb-layout *ngIf="showLayout">
   <nb-layout-header fixed>
     <app-header (toggleSidebar)="toggleSidebar()"></app-header>
   </nb-layout-header>
@@ -11,3 +11,5 @@
     <router-outlet />
   </nb-layout-column>
 </nb-layout>
+
+<router-outlet *ngIf="!showLayout" />

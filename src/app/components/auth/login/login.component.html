@@ -1,0 +1,73 @@
+<div class="login-container">
+  <div class="login-card-wrapper">
+    <nb-card>
+      <nb-card-header>
+        <h1 class="login-title">Iniciar Sesión</h1>
+        <p class="login-subtitle">ETL DBF Interface</p>
+      </nb-card-header>
+      
+      <nb-card-body>
+        <nb-alert *ngIf="errorMessage" status="danger" closable (close)="errorMessage = ''">
+          {{ errorMessage }}
+        </nb-alert>
+
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <div class="form-group">
+            <label for="username" class="label">Usuario</label>
+            <input nbInput
+                   fullWidth
+                   type="text"
+                   id="username"
+                   name="username"
+                   [(ngModel)]="username"
+                   placeholder="Ingrese su usuario"
+                   [disabled]="isLoading"
+                   required
+                   autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="label">Contraseña</label>
+            <div class="password-input-wrapper">
+              <input nbInput
+                     fullWidth
+                     [type]="showPassword ? 'text' : 'password'"
+                     id="password"
+                     name="password"
+                     [(ngModel)]="password"
+                     placeholder="Ingrese su contraseña"
+                     [disabled]="isLoading"
+                     required
+                     autocomplete="current-password">
+              <button type="button"
+                      nbButton
+                      ghost
+                      class="password-toggle"
+                      (click)="togglePasswordVisibility()">
+                <nb-icon [icon]="showPassword ? 'eye-off-outline' : 'eye-outline'"></nb-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <nb-checkbox [(ngModel)]="rememberMe" name="rememberMe" [disabled]="isLoading">
+              Recordarme
+            </nb-checkbox>
+          </div>
+
+          <button nbButton
+                  fullWidth
+                  status="primary"
+                  type="submit"
+                  [disabled]="isLoading || !loginForm.valid"
+                  class="login-button">
+            <nb-icon *ngIf="!isLoading" icon="log-in-outline"></nb-icon>
+            <nb-icon *ngIf="isLoading" icon="loader-outline" class="spin"></nb-icon>
+            {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+          </button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
