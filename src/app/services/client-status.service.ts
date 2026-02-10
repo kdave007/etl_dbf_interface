@@ -40,7 +40,8 @@ export class ClientStatusService {
 
     const cityMap: Record<string, string> = {
       'xalap': 'XALAP',
-      'chetu': 'CHETU'
+      'chetu': 'CHETU',
+      'penla': 'PENLA'
     };
 
     const body: ClientStatusRequest = {
