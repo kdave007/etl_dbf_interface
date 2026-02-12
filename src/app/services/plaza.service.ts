@@ -13,8 +13,10 @@ export class PlazaService {
     ['xalap', { name: 'Xalapa', apiUrl: 'http://localhost:3001' }],
     ['chetu', { name: 'chetumal', apiUrl: 'http://localhost:3001' }],
     ['penla', { name: 'peninsula', apiUrl: 'http://localhost:3001' }],
-    ['Guadalajara', { name: 'Guadalajara', apiUrl: 'http://guadalajara-server.example.com/api' }],
-    ['Hermosillo', { name: 'Hermosillo', apiUrl: 'http://hermosillo-server.example.com/api' }]
+    ['manza', { name: 'manzanillo', apiUrl: 'http://localhost:3001' }],
+    ['valla', { name: 'vallarta', apiUrl: 'http://localhost:3001' }]
+    // ['Guadalajara', { name: 'Guadalajara', apiUrl: 'http://guadalajara-server.example.com/api' }],
+    // ['Hermosillo', { name: 'Hermosillo', apiUrl: 'http://hermosillo-server.example.com/api' }]
   ]);
 
   constructor() { }

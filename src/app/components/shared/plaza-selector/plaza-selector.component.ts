@@ -21,9 +21,11 @@ export class PlazaSelectorComponent {
   plazas: Plaza[] = [
     { value: 'xalap', label: 'Xalapa' },
     { value: 'chetu', label: 'Chetumal' },
-    { value: 'penla', label: 'Peninsula' },
-    { value: 'Guadalajara', label: 'Guadalajara' },
-    { value: 'Hermosillo', label: 'Hermosillo' }
+    { value: 'penla', label: 'Peninsula' }, 
+    { value: 'manza', label: 'Manzanillo' },
+    { value: 'valla', label: 'Vallarta' }
+    // { value: 'Guadalajara', label: 'Guadalajara' },
+    // { value: 'Hermosillo', label: 'Hermosillo' }
   ];
 
   onPlazaChange(value: string) {
