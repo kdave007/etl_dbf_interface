@@ -10,11 +10,12 @@ export interface PlazaConfig {
 })
 export class PlazaService {
   private plazaConfigs: Map<string, PlazaConfig> = new Map([
-    ['xalap', { name: 'Xalapa', apiUrl: 'http://localhost:3001' }],
-    ['chetu', { name: 'chetumal', apiUrl: 'http://localhost:3001' }],
-    ['penla', { name: 'peninsula', apiUrl: 'http://localhost:3001' }],
-    ['manza', { name: 'manzanillo', apiUrl: 'http://localhost:3001' }],
-    ['valla', { name: 'vallarta', apiUrl: 'http://localhost:3001' }]
+    ['xalap', { name: 'Xalapa', apiUrl: 'http://192.168.10.43:3001' }],
+    ['chetu', { name: 'chetumal', apiUrl: 'http://192.168.10.43:3001' }],
+    ['penla', { name: 'peninsula', apiUrl: 'http://192.168.10.43:3001' }],
+    ['manza', { name: 'manzanillo', apiUrl: 'http://192.168.10.43:3001' }],
+    ['reyes', { name: 'reyes', apiUrl: 'http://192.168.10.43:3001' }],
+    ['valla', { name: 'vallarta', apiUrl: 'http://192.168.10.43:3001' }]
     // ['Guadalajara', { name: 'Guadalajara', apiUrl: 'http://guadalajara-server.example.com/api' }],
     // ['Hermosillo', { name: 'Hermosillo', apiUrl: 'http://hermosillo-server.example.com/api' }]
   ]);

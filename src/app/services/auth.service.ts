@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export interface LoginRequest {
   username: string;
@@ -42,8 +43,7 @@ export class AuthService {
    * Login user with username and password
    */
   login(username: string, password: string): Observable<LoginResponse> {
-    const apiUrl = 'http://localhost:3001';
-    const endpoint = `${apiUrl}/api/auth/login`;
+    const endpoint = `${environment.apiUrl}/api/auth/login`;
 
     const body: LoginRequest = {
       username,

@@ -23,6 +23,7 @@ export class PlazaSelectorComponent {
     { value: 'chetu', label: 'Chetumal' },
     { value: 'penla', label: 'Peninsula' }, 
     { value: 'manza', label: 'Manzanillo' },
+    { value: 'reyes', label: 'Reyes' },
     { value: 'valla', label: 'Vallarta' }
     // { value: 'Guadalajara', label: 'Guadalajara' },
     // { value: 'Hermosillo', label: 'Hermosillo' }

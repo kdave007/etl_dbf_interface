@@ -43,7 +43,8 @@ export class ClientStatusService {
       'chetu': 'CHETU',
       'penla': 'PENLA',
       'valla': 'VALLA',
-      'manza': 'MANZA'
+      'manza': 'MANZA',
+      'reyes': 'REYES'
     };
 
     const body: ClientStatusRequest = {
