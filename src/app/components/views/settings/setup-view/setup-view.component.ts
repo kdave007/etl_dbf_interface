@@ -30,7 +30,8 @@ export class SetupViewComponent implements OnInit, OnChanges {
     { value: 'PENLA', label: 'Peninsula' },
     { value: 'VALLA', label: 'Vallarta' },
     { value: 'MANZA', label: 'Manzanillo' },
-    { value: 'REYES', label: 'Reyes' }
+    { value: 'REYES', label: 'Reyes' },
+    { value: 'GUADA', label: 'Guadalajara' }
   ];
   
   sucursales: Array<{value: string, label: string}> = [];

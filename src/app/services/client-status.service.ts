@@ -44,7 +44,8 @@ export class ClientStatusService {
       'penla': 'PENLA',
       'valla': 'VALLA',
       'manza': 'MANZA',
-      'reyes': 'REYES'
+      'reyes': 'REYES',
+      'guada': 'GUADA'
     };
 
     const body: ClientStatusRequest = {

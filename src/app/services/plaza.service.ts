@@ -15,8 +15,8 @@ export class PlazaService {
     ['penla', { name: 'peninsula', apiUrl: 'http://192.168.10.43:3001' }],
     ['manza', { name: 'manzanillo', apiUrl: 'http://192.168.10.43:3001' }],
     ['reyes', { name: 'reyes', apiUrl: 'http://192.168.10.43:3001' }],
-    ['valla', { name: 'vallarta', apiUrl: 'http://192.168.10.43:3001' }]
-    // ['Guadalajara', { name: 'Guadalajara', apiUrl: 'http://guadalajara-server.example.com/api' }],
+    ['valla', { name: 'vallarta', apiUrl: 'http://192.168.10.43:3001' }],
+    ['guada', { name: 'Guadalajara', apiUrl: 'http://192.168.10.43:3001' }]
     // ['Hermosillo', { name: 'Hermosillo', apiUrl: 'http://hermosillo-server.example.com/api' }]
   ]);
 

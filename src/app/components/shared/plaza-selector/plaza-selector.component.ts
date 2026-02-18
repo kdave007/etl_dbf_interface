@@ -24,8 +24,8 @@ export class PlazaSelectorComponent {
     { value: 'penla', label: 'Peninsula' }, 
     { value: 'manza', label: 'Manzanillo' },
     { value: 'reyes', label: 'Reyes' },
-    { value: 'valla', label: 'Vallarta' }
-    // { value: 'Guadalajara', label: 'Guadalajara' },
+    { value: 'valla', label: 'Vallarta' },
+    { value: 'guada', label: 'Guadalajara' }
     // { value: 'Hermosillo', label: 'Hermosillo' }
   ];
 
