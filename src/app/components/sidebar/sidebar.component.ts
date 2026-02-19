@@ -71,14 +71,9 @@ export class SidebarComponent {
     //   ]
     // },
     {
-      title: 'Settings',
+      title: 'Configuración',
       icon: 'settings-2-outline',
       link: '/configuracion'
-    },
-    {
-      title: 'Help',
-      icon: 'question-mark-circle-outline',
-      link: '/help'
     }
   ];
 }

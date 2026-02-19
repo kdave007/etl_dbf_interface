@@ -91,6 +91,14 @@ export class AuthService {
   }
 
   /**
+   * Check if current user is administrator
+   */
+  isAdministrator(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'administrator';
+  }
+
+  /**
    * Set session data
    */
   private setSession(token: string, user?: User): void {

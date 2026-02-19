@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NbCardModule, NbSelectModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbDialogService, NbCheckboxModule, NbAlertModule, NbToastrService } from '@nebular/theme';
+import { NbCardModule, NbSelectModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbDialogService, NbCheckboxModule, NbAlertModule, NbToastrService, NbTooltipModule } from '@nebular/theme';
 import { SucursalConfigService } from '../../../../services/sucursal-config.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-setup-view',
-  imports: [NbCardModule, NbSelectModule, CommonModule, FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbCheckboxModule, NbAlertModule],
+  imports: [NbCardModule, NbSelectModule, CommonModule, FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbToggleModule, NbDialogModule, NbCheckboxModule, NbAlertModule, NbTooltipModule],
   templateUrl: './setup-view.component.html',
   styleUrl: './setup-view.component.scss'
 })
@@ -17,12 +18,14 @@ export class SetupViewComponent implements OnInit, OnChanges {
   constructor(
     private sucursalConfigService: SucursalConfigService,
     private dialogService: NbDialogService,
-    private toastrService: NbToastrService
+    private toastrService: NbToastrService,
+    private authService: AuthService
   ) {}
   selectedSucursal: any;
   loading = false;
   loadingSucursales = false;
   error: string | null = null;
+  isAdmin = false;
   
   plazas: Array<{value: string, label: string}> = [
     { value: 'XALAP', label: 'Xalapa' },
@@ -63,6 +66,7 @@ export class SetupViewComponent implements OnInit, OnChanges {
   private originalConfig = { ...this.config };
 
   ngOnInit() {
+    this.isAdmin = this.authService.isAdministrator();
     if (this.selectedPlaza) {
       this.loadSucursales(this.selectedPlaza);
     }

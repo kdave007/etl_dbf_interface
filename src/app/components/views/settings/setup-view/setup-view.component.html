@@ -20,6 +20,10 @@
   </div>
 
   <div *ngIf="selectedSucursal" class="config-sections">
+    <nb-alert *ngIf="!isAdmin" status="warning" closable>
+      <strong>Modo Solo Lectura:</strong> No tienes permisos de administrador. Puedes ver la configuración pero no guardar cambios.
+    </nb-alert>
+    
     <div class="section-row">
       <nb-card class="config-section">
         <nb-card-body>
@@ -251,8 +255,11 @@
               status="info"
               size="large"
               (click)="openCopyToStoresModal()"
+              [disabled]="!isAdmin"
+              [nbTooltip]="!isAdmin ? 'Solo administradores pueden copiar configuraciones' : ''"
               class="copy-button">
         <nb-icon icon="copy-outline"></nb-icon>
+        <nb-icon *ngIf="!isAdmin" icon="lock-outline"></nb-icon>
         COPIAR A OTRAS TIENDAS
       </button>
       
@@ -260,9 +267,11 @@
               status="primary"
               size="large"
               (click)="saveConfig()"
-              [disabled]="savingConfig"
+              [disabled]="savingConfig || !isAdmin"
+              [nbTooltip]="!isAdmin ? 'Solo administradores pueden guardar configuraciones' : ''"
               class="save-button">
-        <nb-icon *ngIf="!savingConfig" icon="save-outline"></nb-icon>
+        <nb-icon *ngIf="!savingConfig && isAdmin" icon="save-outline"></nb-icon>
+        <nb-icon *ngIf="!savingConfig && !isAdmin" icon="lock-outline"></nb-icon>
         <nb-icon *ngIf="savingConfig" icon="loader-outline" class="spin"></nb-icon>
         {{ savingConfig ? 'GUARDANDO...' : 'GUARDAR CONFIGURACIÓN' }}
       </button>
